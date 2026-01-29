@@ -137,7 +137,10 @@ export default function AlphabetLearning() {
                   ${playingAudio === item.letter ? 'animate-pulse' : ''}
                 `}
               >
-                <div className="text-5xl font-bold mb-2">{item.letter}</div>
+                <div className="flex gap-2 items-center justify-center mb-2">
+                  <div className="text-4xl font-bold">{item.letter}</div>
+                  <div className="text-3xl font-bold opacity-75">{item.letter.toLowerCase()}</div>
+                </div>
                 <div className="text-xs opacity-90 mb-2">{item.pronunciation}</div>
                 <Volume2 size={20} className="mx-auto opacity-75" />
               </div>
