@@ -307,9 +307,9 @@ export default function WordsLearning() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8">
       {/* 分类选择 */}
-      <div className="mb-8">
+      <div className="mb-12">
         <div className="flex flex-wrap gap-3 justify-center">
           {categories.map((cat) => (
             <button
@@ -321,7 +321,7 @@ export default function WordsLearning() {
               }}
               className={`px-4 py-2 rounded-full font-bold transition-all duration-300 ${
                 selectedCategory === cat
-                  ? 'bg-blue-500 text-white scale-110'
+                  ? 'bg-blue-500 text-white scale-110 shadow-lg'
                   : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
               }`}
             >
@@ -331,102 +331,107 @@ export default function WordsLearning() {
         </div>
       </div>
 
-      {/* 单词卡片 */}
-      <div className="flex justify-center mb-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentWord.id}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => toggleFlip(currentWord.id)}
-            className="cursor-pointer"
-          >
+      {/* 主要内容区域 */}
+      <div className="flex flex-col items-center">
+        {/* 单词卡片 */}
+        <div className="mb-12">
+          <AnimatePresence mode="wait">
             <motion.div
-              animate={{ rotateY: flipped[currentWord.id] ? 180 : 0 }}
-              transition={{ duration: 0.6 }}
-              style={{ perspective: 1000 }}
-              className="w-80 h-80"
+              key={currentWord.id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => toggleFlip(currentWord.id)}
+              className="cursor-pointer"
             >
               <motion.div
                 animate={{ rotateY: flipped[currentWord.id] ? 180 : 0 }}
                 transition={{ duration: 0.6 }}
-                style={{
-                  transformStyle: 'preserve-3d',
-                  transform: flipped[currentWord.id] ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                }}
-                className="w-full h-full"
+                style={{ perspective: 1000 }}
+                className="w-96 h-96"
               >
-                {/* 正面 - 英文 */}
                 <motion.div
-                  style={{ backfaceVisibility: 'hidden' }}
-                  className="absolute w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-white"
-                >
-                  <div className="text-6xl font-bold mb-4">{currentWord.english}</div>
-                  <div className="text-2xl opacity-80">{currentWord.pronunciation}</div>
-                  <div className="text-sm mt-8 opacity-60">点击翻转查看中文</div>
-                </motion.div>
-
-                {/* 背面 - 中文 */}
-                <motion.div
+                  animate={{ rotateY: flipped[currentWord.id] ? 180 : 0 }}
+                  transition={{ duration: 0.6 }}
                   style={{
-                    backfaceVisibility: 'hidden',
-                    transform: 'rotateY(180deg)',
+                    transformStyle: 'preserve-3d',
+                    transform: flipped[currentWord.id] ? 'rotateY(180deg)' : 'rotateY(0deg)',
                   }}
-                  className="absolute w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-white"
+                  className="w-full h-full"
                 >
-                  <div className="text-6xl font-bold mb-4">{currentWord.chinese}</div>
-                  <div className="text-2xl opacity-80">{currentWord.english}</div>
-                  <div className="text-sm mt-8 opacity-60">点击翻转查看英文</div>
+                  {/* 正面 - 英文 */}
+                  <motion.div
+                    style={{ backfaceVisibility: 'hidden' }}
+                    className="absolute w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-white"
+                  >
+                    <div className="text-7xl font-bold mb-4">{currentWord.english}</div>
+                    <div className="text-2xl opacity-80">{currentWord.pronunciation}</div>
+                    <div className="text-sm mt-8 opacity-60">点击翻转查看中文</div>
+                  </motion.div>
+
+                  {/* 背面 - 中文 */}
+                  <motion.div
+                    style={{
+                      backfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg)',
+                    }}
+                    className="absolute w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-white"
+                  >
+                    <div className="text-7xl font-bold mb-4">{currentWord.chinese}</div>
+                    <div className="text-2xl opacity-80">{currentWord.english}</div>
+                    <div className="text-sm mt-8 opacity-60">点击翻转查看英文</div>
+                  </motion.div>
                 </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* 发音按钮 */}
-        <div className="flex justify-center mb-8">
-          <button
-            onClick={() => playPronunciation(currentWord.english)}
-            className={`px-6 py-3 rounded-full font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95 bg-blue-500 hover:bg-blue-600 text-lg px-8 py-4 ${playingId === currentWord.id ? 'animate-pulse' : ''}`}
-          >
-            <Volume2 className="inline mr-2" size={24} />
-            听发音 Listen
-          </button>
+          </AnimatePresence>
         </div>
 
-        {/* 进度和导航 */}
-        <div className="flex items-center justify-between mb-8">
+        {/* 发音按钮 */}
+        <button
+          onClick={() => playPronunciation(currentWord.english)}
+          className={`mb-12 px-8 py-4 rounded-full font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg ${playingId === currentWord.id ? 'animate-pulse' : ''}`}
+        >
+          <Volume2 className="inline mr-3" size={28} />
+          听发音 Listen
+        </button>
+
+        {/* 进度条 */}
+        <div className="w-full max-w-2xl mb-8">
+          <div className="bg-gray-300 rounded-full h-3 overflow-hidden shadow-md">
+            <motion.div
+              className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500"
+              animate={{ width: `${((currentIndex + 1) / filteredWords.length) * 100}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </div>
+          <div className="flex justify-between mt-3 text-sm font-semibold text-gray-700">
+            <span>{currentIndex + 1}</span>
+            <span>{filteredWords.length}</span>
+          </div>
+        </div>
+
+        {/* 导航和进度信息 */}
+        <div className="flex items-center justify-center gap-8">
           <button
             onClick={goPrev}
             disabled={currentIndex === 0}
-            className="px-6 py-3 rounded-full font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-3 rounded-full font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={28} />
           </button>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-blue-600">
-              {currentIndex + 1} / {filteredWords.length}
-            </p>
-            <p className="text-gray-600">{selectedCategory}</p>
+          <div className="text-center min-w-32">
+            <p className="text-3xl font-bold text-blue-600">{currentIndex + 1}</p>
+            <p className="text-sm text-gray-600 mt-1">{selectedCategory}</p>
           </div>
           <button
             onClick={goNext}
             disabled={currentIndex === filteredWords.length - 1}
-            className="px-6 py-3 rounded-full font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-3 rounded-full font-bold text-white transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={28} />
           </button>
-        </div>
-
-        {/* 进度条 */}
-        <div className="w-full bg-gray-300 rounded-full h-4 overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-blue-500 to-orange-500"
-            animate={{ width: `${((currentIndex + 1) / filteredWords.length) * 100}%` }}
-            transition={{ duration: 0.5 }}
-          />
         </div>
       </div>
     </div>
