@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import AlphabetLearning from '@/components/AlphabetLearning';
 import WordsLearning from '@/components/WordsLearning';
 import WelcomeCard from '@/components/WelcomeCard';
+import LearningStats from '@/components/LearningStats';
 
 /**
  * 主页面
@@ -17,7 +18,7 @@ import WelcomeCard from '@/components/WelcomeCard';
  */
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'alphabet' | 'words'>('alphabet');
+  const [activeTab, setActiveTab] = useState<'alphabet' | 'words' | 'stats'>('alphabet');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const tabVariants = {
@@ -57,6 +58,16 @@ export default function Home() {
               }`}
             >
               📚 单词
+            </button>
+            <button
+              onClick={() => setActiveTab('stats')}
+              className={`font-bold text-lg transition-all duration-300 pb-2 ${
+                activeTab === 'stats'
+                  ? 'text-green-600 border-b-4 border-green-600'
+                  : 'text-gray-600 hover:text-green-600'
+              }`}
+            >
+              📊 统计
             </button>
           </div>
 
@@ -103,6 +114,19 @@ export default function Home() {
                 }`}
               >
                 📚 单词
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('stats');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full py-3 rounded-lg font-bold text-lg transition-all duration-300 ${
+                  activeTab === 'stats'
+                    ? 'bg-green-500 text-white'
+                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                }`}
+              >
+                📊 统计
               </button>
             </div>
           </motion.div>
@@ -165,6 +189,17 @@ export default function Home() {
             exit="exit"
           >
             <WordsLearning />
+          </motion.div>
+        )}
+        {activeTab === 'stats' && (
+          <motion.div
+            key="stats"
+            variants={tabVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <LearningStats />
           </motion.div>
         )}
       </section>

@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLearningProgress } from '@/hooks/useLearningProgress';
 
 /**
  * 单词学习组件
@@ -259,6 +260,20 @@ export default function WordsLearning() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState<Record<number, boolean>>({});
   const [playingId, setPlayingId] = useState<number | null>(null);
+  const [learnedWords, setLearnedWords] = useState<Set<number>>(new Set());
+  const { recordWordLearning } = useLearningProgress();
+
+  // 从LocalStorage加载已学单词
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('learned_words');
+      if (saved) {
+        setLearnedWords(new Set(JSON.parse(saved)));
+      }
+    } catch (error) {
+      console.error('Failed to load learned words:', error);
+    }
+  }, []);
 
   const categories = ['All', ...Object.keys(categoryEmojis)];
 
@@ -283,6 +298,7 @@ export default function WordsLearning() {
 
   const goNext = () => {
     if (currentIndex < filteredWords.length - 1) {
+      recordWordView();
       setCurrentIndex(currentIndex + 1);
       setFlipped({});
     }
@@ -290,8 +306,24 @@ export default function WordsLearning() {
 
   const goPrev = () => {
     if (currentIndex > 0) {
+      recordWordView();
       setCurrentIndex(currentIndex - 1);
       setFlipped({});
+    }
+  };
+
+  // 记录单词学习
+  const recordWordView = () => {
+    if (!learnedWords.has(currentWord.id)) {
+      const newLearned = new Set(learnedWords);
+      newLearned.add(currentWord.id);
+      setLearnedWords(newLearned);
+      recordWordLearning(1);
+      try {
+        localStorage.setItem('learned_words', JSON.stringify(Array.from(newLearned)));
+      } catch (error) {
+        console.error('Failed to save learned words:', error);
+      }
     }
   };
 
@@ -396,6 +428,13 @@ export default function WordsLearning() {
           <Volume2 className="inline mr-3" size={28} />
           听发音 Listen
         </button>
+
+        {/* 进度显示 */}
+        <div className="mb-8 text-center">
+          <p className="text-sm text-green-600 font-bold">
+            已学: {learnedWords.size}/{wordsData.length} 个单词
+          </p>
+        </div>
 
         {/* 进度条 */}
         <div className="w-full max-w-2xl mb-8">

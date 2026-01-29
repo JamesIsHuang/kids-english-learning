@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLearningProgress } from '@/hooks/useLearningProgress';
 
 const wordsData = {
   alphabet: [
@@ -33,14 +34,6 @@ const wordsData = {
   ],
 };
 
-/**
- * 字母学习组件
- * 设计风格：欢乐卡通风格
- * - 26个字母卡片，每个字母配有对应的单词示例
- * - 点击卡片可以听发音
- * - 彩虹色的字母，增加视觉趣味性
- */
-
 const colors = [
   'bg-blue-500',
   'bg-orange-500',
@@ -53,12 +46,25 @@ const colors = [
 export default function AlphabetLearning() {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
+  const [learnedLetters, setLearnedLetters] = useState<Set<string>>(new Set());
+  const { recordAlphabetLearning } = useLearningProgress();
 
   const alphabet = wordsData.alphabet as any[];
 
+  // 从LocalStorage加载已学字母
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('learned_alphabets');
+      if (saved) {
+        setLearnedLetters(new Set(JSON.parse(saved)));
+      }
+    } catch (error) {
+      console.error('Failed to load learned alphabets:', error);
+    }
+  }, []);
+
   const playPronunciation = (letter: string, pronunciation: string) => {
     setPlayingAudio(letter);
-    // 使用Web Speech API进行发音
     const utterance = new SpeechSynthesisUtterance(pronunciation);
     utterance.rate = 0.8;
     utterance.pitch = 1.2;
@@ -67,16 +73,33 @@ export default function AlphabetLearning() {
     window.speechSynthesis.speak(utterance);
   };
 
+  const handleLetterClick = (letter: string, pronunciation: string) => {
+    setSelectedLetter(letter);
+    playPronunciation(letter, pronunciation);
+
+    if (!learnedLetters.has(letter)) {
+      const newLearned = new Set(learnedLetters);
+      newLearned.add(letter);
+      setLearnedLetters(newLearned);
+      recordAlphabetLearning(1);
+      try {
+        localStorage.setItem('learned_alphabets', JSON.stringify(Array.from(newLearned)));
+      } catch (error) {
+        console.error('Failed to save learned alphabets:', error);
+      }
+    }
+  };
+
   const getColorClass = (index: number) => colors[index % colors.length];
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-        transition: {
-          staggerChildren: 0.05,
-          delayChildren: 0.1,
-        } as any,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
+      } as any,
     },
   };
 
@@ -97,7 +120,6 @@ export default function AlphabetLearning() {
   return (
     <div className="w-full py-12 px-4 bg-gradient-to-b from-blue-50 to-pink-50">
       <div className="max-w-6xl mx-auto">
-        {/* 标题 */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">
             🔤 字母表 Alphabet
@@ -105,9 +127,11 @@ export default function AlphabetLearning() {
           <p className="text-lg text-gray-600">
             点击字母卡片听发音，学习英文字母！
           </p>
+          <p className="text-sm text-green-600 font-bold mt-2">
+            已学: {learnedLetters.size}/26 个字母
+          </p>
         </div>
 
-        {/* 字母网格 */}
         <motion.div
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
           variants={containerVariants}
@@ -119,11 +143,8 @@ export default function AlphabetLearning() {
             <motion.div
               key={item.letter}
               variants={itemVariants}
-              onClick={() => {
-                setSelectedLetter(item.letter);
-                playPronunciation(item.letter, item.pronunciation);
-              }}
-              className="cursor-pointer"
+              onClick={() => handleLetterClick(item.letter, item.pronunciation)}
+              className="cursor-pointer relative"
             >
               <div
                 className={`
@@ -135,8 +156,12 @@ export default function AlphabetLearning() {
                   transition-all duration-300
                   ${selectedLetter === item.letter ? 'ring-4 ring-yellow-300 scale-110' : ''}
                   ${playingAudio === item.letter ? 'animate-pulse' : ''}
+                  ${learnedLetters.has(item.letter) ? 'ring-2 ring-green-300' : ''}
                 `}
               >
+                {learnedLetters.has(item.letter) && (
+                  <div className="absolute top-2 right-2 text-xl">✓</div>
+                )}
                 <div className="flex gap-2 items-center justify-center mb-2">
                   <div className="text-4xl font-bold">{item.letter}</div>
                   <div className="text-3xl font-bold opacity-75">{item.letter.toLowerCase()}</div>
@@ -148,7 +173,6 @@ export default function AlphabetLearning() {
           ))}
         </motion.div>
 
-        {/* 示例单词显示 */}
         {selectedLetter && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
