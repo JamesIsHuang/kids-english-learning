@@ -13,7 +13,7 @@ interface WelcomeCardProps {
 export default function WelcomeCard({ onStart }: WelcomeCardProps) {
   const stats = [
     { label: '字母', value: '26', emoji: '🔤' },
-    { label: '单词', value: '100', emoji: '📚' },
+    { label: '单词', value: '200', emoji: '📚' },
     { label: '分类', value: '10', emoji: '🎨' },
   ];
 
