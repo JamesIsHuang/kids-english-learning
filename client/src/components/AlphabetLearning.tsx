@@ -127,7 +127,7 @@ export default function AlphabetLearning() {
             >
               <div
                 className={`
-                  bg-white rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer
+                  rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer
                   flex flex-col items-center justify-center aspect-square text-center
                   ${getColorClass(index)}
                   text-white
