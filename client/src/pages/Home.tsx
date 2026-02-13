@@ -5,7 +5,6 @@ import AlphabetLearning from '@/components/AlphabetLearning';
 import WordsLearning from '@/components/WordsLearning';
 import WelcomeCard from '@/components/WelcomeCard';
 import LearningStats from '@/components/LearningStats';
-import AnalyticsPanel from '@/components/AnalyticsPanel';
 
 /**
  * 主页面
@@ -19,7 +18,7 @@ import AnalyticsPanel from '@/components/AnalyticsPanel';
  */
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'alphabet' | 'words' | 'stats' | 'analytics'>('alphabet');
+  const [activeTab, setActiveTab] = useState<'alphabet' | 'words' | 'stats'>('alphabet');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const tabVariants = {
@@ -69,16 +68,6 @@ export default function Home() {
               }`}
             >
               📊 统计
-            </button>
-            <button
-              onClick={() => setActiveTab('analytics')}
-              className={`font-bold text-lg transition-all duration-300 pb-2 ${
-                activeTab === 'analytics'
-                  ? 'text-purple-600 border-b-4 border-purple-600'
-                  : 'text-gray-600 hover:text-purple-600'
-              }`}
-            >
-              📈 访问统计
             </button>
           </div>
 
@@ -139,19 +128,6 @@ export default function Home() {
               >
                 📊 统计
               </button>
-              <button
-                onClick={() => {
-                  setActiveTab('analytics');
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-full py-3 rounded-lg font-bold text-lg transition-all duration-300 ${
-                  activeTab === 'analytics'
-                    ? 'bg-purple-500 text-white'
-                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                }`}
-              >
-                📈 访问统计
-              </button>
             </div>
           </motion.div>
         )}
@@ -161,7 +137,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 py-12 md:py-20">
         <div className="absolute inset-0 opacity-20">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663268214606/DdECMPLQuzsNuhWF.png"
+            src="/images/hero-banner.png"
             alt="Hero Banner"
             className="w-full h-full object-cover"
           />
@@ -224,17 +200,6 @@ export default function Home() {
             exit="exit"
           >
             <LearningStats />
-          </motion.div>
-        )}
-        {activeTab === 'analytics' && (
-          <motion.div
-            key="analytics"
-            variants={tabVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <AnalyticsPanel />
           </motion.div>
         )}
       </section>
