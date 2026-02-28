@@ -388,7 +388,6 @@ export default function WordsLearning() {
                   transition={{ duration: 0.6 }}
                   style={{
                     transformStyle: 'preserve-3d',
-                    transform: flipped[currentWord.id] ? 'rotateY(180deg)' : 'rotateY(0deg)',
                   }}
                   className="w-full h-full"
                 >
@@ -407,12 +406,13 @@ export default function WordsLearning() {
                     style={{
                       backfaceVisibility: 'hidden',
                       transform: 'rotateY(180deg)',
+                      WebkitBackfaceVisibility: 'hidden',
                     }}
                     className="absolute w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-white"
                   >
-                    <div className="text-7xl font-bold mb-4">{currentWord.chinese}</div>
-                    <div className="text-2xl opacity-80">{currentWord.english}</div>
-                    <div className="text-sm mt-8 opacity-60">点击翻转查看英文</div>
+                    <div style={{ transform: 'scaleX(-1)' }} className="text-7xl font-bold mb-4">{currentWord.chinese}</div>
+                    <div style={{ transform: 'scaleX(-1)' }} className="text-2xl opacity-80">{currentWord.english}</div>
+                    <div style={{ transform: 'scaleX(-1)' }} className="text-sm mt-8 opacity-60">点击翻转查看英文</div>
                   </motion.div>
                 </motion.div>
               </motion.div>
