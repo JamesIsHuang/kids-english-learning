@@ -97,20 +97,20 @@ export default function FavoritesManager() {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={() => playPronunciation(word.english, word.id)}
-                  className={`flex-1 px-4 py-2 rounded-lg font-bold transition-all duration-300 hover:scale-105 active:scale-95 ${
+                  className={`flex-1 px-4 py-2 rounded-lg font-bold transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center ${
                     playingId === word.id
-                      ? 'bg-white text-blue-600 animate-pulse'
-                      : 'bg-white bg-opacity-30 text-white hover:bg-opacity-40'
+                      ? 'bg-yellow-300 text-blue-600 animate-pulse'
+                      : 'bg-blue-500 text-white hover:bg-blue-600'
                   }`}
                 >
-                  <Volume2 className="inline mr-2" size={18} />
-                  听
+                  <Volume2 className="mr-2" size={18} />
+                  听发音
                 </button>
                 <button
                   onClick={() => removeFavorite(word.id)}
-                  className="px-4 py-2 rounded-lg font-bold bg-red-500 hover:bg-red-600 text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="px-4 py-2 rounded-lg font-bold bg-red-500 hover:bg-red-600 text-white transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center"
                 >
-                  <Trash2 className="inline mr-2" size={18} />
+                  <Trash2 className="mr-2" size={18} />
                   删除
                 </button>
               </div>
