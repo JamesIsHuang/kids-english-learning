@@ -5,6 +5,7 @@ import AlphabetLearning from '@/components/AlphabetLearning';
 import WordsLearning from '@/components/WordsLearning';
 import WelcomeCard from '@/components/WelcomeCard';
 import LearningStats from '@/components/LearningStats';
+import FavoritesManager from '@/components/FavoritesManager';
 
 /**
  * 主页面
@@ -18,7 +19,7 @@ import LearningStats from '@/components/LearningStats';
  */
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'alphabet' | 'words' | 'stats'>('alphabet');
+  const [activeTab, setActiveTab] = useState<'alphabet' | 'words' | 'stats' | 'favorites'>('alphabet');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const tabVariants = {
@@ -68,6 +69,16 @@ export default function Home() {
               }`}
             >
               📊 统计
+            </button>
+            <button
+              onClick={() => setActiveTab('favorites')}
+              className={`font-bold text-lg transition-all duration-300 pb-2 ${
+                activeTab === 'favorites'
+                  ? 'text-red-600 border-b-4 border-red-600'
+                  : 'text-gray-600 hover:text-red-600'
+              }`}
+            >
+              ❤️ 收藏夹
             </button>
           </div>
 
@@ -127,6 +138,19 @@ export default function Home() {
                 }`}
               >
                 📊 统计
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('favorites');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full py-3 rounded-lg font-bold text-lg transition-all duration-300 ${
+                  activeTab === 'favorites'
+                    ? 'bg-red-500 text-white'
+                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                }`}
+              >
+                ❤️ 收藏夹
               </button>
             </div>
           </motion.div>
@@ -200,6 +224,17 @@ export default function Home() {
             exit="exit"
           >
             <LearningStats />
+          </motion.div>
+        )}
+        {activeTab === 'favorites' && (
+          <motion.div
+            key="favorites"
+            variants={tabVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <FavoritesManager />
           </motion.div>
         )}
       </section>

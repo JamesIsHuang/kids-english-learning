@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLearningProgress } from '@/hooks/useLearningProgress';
+import { useFavorites } from '@/hooks/useFavorites';
 
 /**
  * 单词学习组件
@@ -262,6 +263,7 @@ export default function WordsLearning() {
   const [playingId, setPlayingId] = useState<number | null>(null);
   const [learnedWords, setLearnedWords] = useState<Set<number>>(new Set());
   const { recordWordLearning } = useLearningProgress();
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   // 从LocalStorage加载已学单词
   useEffect(() => {
@@ -420,14 +422,39 @@ export default function WordsLearning() {
           </AnimatePresence>
         </div>
 
-        {/* 发音按钮 */}
-        <button
-          onClick={() => playPronunciation(currentWord.english)}
-          className={`mb-12 px-8 py-4 rounded-full font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg ${playingId === currentWord.id ? 'animate-pulse' : ''}`}
-        >
-          <Volume2 className="inline mr-3" size={28} />
-          听发音 Listen
-        </button>
+        {/* 发音和收藏按钮 */}
+        <div className="mb-12 flex gap-4 justify-center">
+          <button
+            onClick={() => playPronunciation(currentWord.english)}
+            className={`px-8 py-4 rounded-full font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg ${playingId === currentWord.id ? 'animate-pulse' : ''}`}
+          >
+            <Volume2 className="inline mr-3" size={28} />
+            听发音 Listen
+          </button>
+          <button
+            onClick={() => {
+              if (isFavorite(currentWord.id.toString())) {
+                removeFavorite(currentWord.id.toString());
+              } else {
+                addFavorite({
+                  id: currentWord.id.toString(),
+                  english: currentWord.english,
+                  chinese: currentWord.chinese,
+                  pronunciation: currentWord.pronunciation,
+                  category: currentWord.category,
+                });
+              }
+            }}
+            className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg ${
+              isFavorite(currentWord.id.toString())
+                ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white'
+                : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
+            }`}
+          >
+            <Heart className="inline mr-3" size={28} fill={isFavorite(currentWord.id.toString()) ? 'currentColor' : 'none'} />
+            {isFavorite(currentWord.id.toString()) ? '已收藏' : '收藏'}
+          </button>
+        </div>
 
         {/* 进度显示 */}
         <div className="mb-8 text-center">
