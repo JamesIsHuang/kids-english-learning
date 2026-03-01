@@ -100,7 +100,7 @@ export default function FavoritesManager() {
                   className={`flex-1 px-4 py-2 rounded-lg font-bold transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center ${
                     playingId === word.id
                       ? 'bg-yellow-300 text-blue-600 animate-pulse'
-                      : 'bg-blue-500 text-white hover:bg-blue-600'
+                      : 'bg-white text-blue-600 hover:bg-gray-100'
                   }`}
                 >
                   <Volume2 className="mr-2" size={18} />
