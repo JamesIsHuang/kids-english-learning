@@ -63,7 +63,7 @@ export default function FavoritesManager() {
           >
             {category === 'All' ? '全部' : category}
             <span className="ml-2 text-sm">
-              ({favorites.filter(f => f.category === category).length})
+              ({category === 'All' ? favorites.length : favorites.filter(f => f.category === category).length})
             </span>
           </button>
         ))}
@@ -89,9 +89,11 @@ export default function FavoritesManager() {
               </div>
 
               {/* 分类标签 */}
-              <div className="mb-4 inline-block bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-bold">
-                {word.category}
-              </div>
+              {word.category && (
+                <div className="mb-4 inline-block bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-bold">
+                  {word.category}
+                </div>
+              )}
 
               {/* 按钮组 */}
               <div className="flex gap-3 mt-6">
