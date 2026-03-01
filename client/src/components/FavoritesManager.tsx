@@ -90,7 +90,7 @@ export default function FavoritesManager() {
 
               {/* 分类标签 */}
               {word.category && (
-                <div className="mb-4 inline-block bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-bold">
+                <div className="mb-4 inline-block bg-yellow-300 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">
                   {word.category}
                 </div>
               )}
