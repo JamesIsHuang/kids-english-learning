@@ -3,6 +3,7 @@ import { Volume2, ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLearningProgress } from '@/hooks/useLearningProgress';
 import { useFavorites } from '@/hooks/useFavorites';
+import { generateWords } from '@/utils/generateWords';
 
 /**
  * 单词学习组件
@@ -21,8 +22,11 @@ interface Word {
   category: string;
 }
 
-const wordsData: Word[] = [
-  // Fruits (20个)
+const wordsData: Word[] = generateWords();
+
+// 备用数据（保留原始数据结构以兼容）
+const _legacyWordsData: Word[] = [
+  // Fruits (40个)
   { id: 1, english: 'Apple', chinese: '苹果', pronunciation: 'AP-ul', category: 'Fruits' },
   { id: 2, english: 'Banana', chinese: '香蕉', pronunciation: 'buh-NAN-uh', category: 'Fruits' },
   { id: 3, english: 'Orange', chinese: '橙子', pronunciation: 'OR-inj', category: 'Fruits' },
@@ -43,6 +47,26 @@ const wordsData: Word[] = [
   { id: 18, english: 'Plum', chinese: '李子', pronunciation: 'PLUM', category: 'Fruits' },
   { id: 19, english: 'Lime', chinese: '青柠', pronunciation: 'LYM', category: 'Fruits' },
   { id: 20, english: 'Avocado', chinese: '牛油果', pronunciation: 'av-uh-KAH-do', category: 'Fruits' },
+  { id: 21, english: 'Tangerine', chinese: '橘子', pronunciation: 'tan-jer-EEN', category: 'Fruits' },
+  { id: 22, english: 'Grapefruit', chinese: '葡萄柚', pronunciation: 'GRAYP-froot', category: 'Fruits' },
+  { id: 23, english: 'Pomegranate', chinese: '石榴', pronunciation: 'PAM-uh-gran-it', category: 'Fruits' },
+  { id: 24, english: 'Fig', chinese: '无花果', pronunciation: 'FIG', category: 'Fruits' },
+  { id: 25, english: 'Date', chinese: '枣', pronunciation: 'DAYT', category: 'Fruits' },
+  { id: 26, english: 'Apricot', chinese: '杏', pronunciation: 'AY-pruh-kot', category: 'Fruits' },
+  { id: 27, english: 'Guava', chinese: '番石榴', pronunciation: 'GWAH-vuh', category: 'Fruits' },
+  { id: 28, english: 'Passion fruit', chinese: '百香果', pronunciation: 'PASH-un FROOT', category: 'Fruits' },
+  { id: 29, english: 'Lychee', chinese: '荔枝', pronunciation: 'LEE-chee', category: 'Fruits' },
+  { id: 30, english: 'Dragonfruit', chinese: '火龙果', pronunciation: 'DRAG-un-froot', category: 'Fruits' },
+  { id: 31, english: 'Blackberry', chinese: '黑莓', pronunciation: 'BLA-ber-ee', category: 'Fruits' },
+  { id: 32, english: 'Cantaloupe', chinese: '哈密瓜', pronunciation: 'CAN-tuh-lope', category: 'Fruits' },
+  { id: 33, english: 'Honeydew', chinese: '蜜瓜', pronunciation: 'HUN-ee-doo', category: 'Fruits' },
+  { id: 34, english: 'Nectarine', chinese: '油桃', pronunciation: 'NEC-tuh-reen', category: 'Fruits' },
+  { id: 35, english: 'Persimmon', chinese: '柿子', pronunciation: 'per-SIM-un', category: 'Fruits' },
+  { id: 36, english: 'Quince', chinese: '榅桲', pronunciation: 'KWINS', category: 'Fruits' },
+  { id: 37, english: 'Rambutan', chinese: '红毛丹', pronunciation: 'ram-BOO-tun', category: 'Fruits' },
+  { id: 38, english: 'Starfruit', chinese: '杨桃', pronunciation: 'STAR-froot', category: 'Fruits' },
+  { id: 39, english: 'Mulberry', chinese: '桑葚', pronunciation: 'MUL-ber-ee', category: 'Fruits' },
+  { id: 40, english: 'Elderberry', chinese: '接骨木浆果', pronunciation: 'EL-der-ber-ee', category: 'Fruits' },
 
   // Vegetables (20个)
   { id: 21, english: 'Carrot', chinese: '胡萝卜', pronunciation: 'KAR-ut', category: 'Vegetables' },
