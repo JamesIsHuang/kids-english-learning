@@ -367,7 +367,7 @@ export default function WordsLearning() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* 分类选择 */}
-      <div className="mb-12">
+      <div className="mb-6">
         <div className="flex flex-wrap gap-3 justify-center">
           {categories.map((cat) => (
             <button
@@ -392,7 +392,7 @@ export default function WordsLearning() {
       {/* 主要内容区域 */}
       <div className="flex flex-col items-center">
         {/* 单词卡片 */}
-        <div className="mb-12">
+        <div className="mb-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentWord.id}
@@ -447,7 +447,7 @@ export default function WordsLearning() {
         </div>
 
         {/* 发音和收藏按钮 */}
-        <div className="mb-12 flex gap-4 justify-center">
+        <div className="mb-4 flex gap-4 justify-center">
           <button
             onClick={() => playPronunciation(currentWord.english)}
             className={`px-8 py-4 rounded-full font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg ${playingId === currentWord.id ? 'animate-pulse' : ''}`}
@@ -481,14 +481,14 @@ export default function WordsLearning() {
         </div>
 
         {/* 进度显示 */}
-        <div className="mb-8 text-center">
+        <div className="mb-3 text-center">
           <p className="text-sm text-green-600 font-bold">
             已学: {learnedWords.size}/{wordsData.length} 个单词
           </p>
         </div>
 
         {/* 进度条 */}
-        <div className="w-full max-w-2xl mb-8">
+        <div className="w-full max-w-2xl mb-4">
           <div className="bg-gray-300 rounded-full h-3 overflow-hidden shadow-md">
             <motion.div
               className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500"

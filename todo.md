@@ -80,3 +80,23 @@
 - [x] 更新WelcomeCard组件显示15个分类
 - [x] 验证修复效果
 - [x] 保存最终检查点
+
+## Feature - 用户认证和数据库存储
+- [x] 安装drizzle-orm、mysql2、@trpc/server等依赖
+- [x] 设计数据库schema（users、learning_progress、favorites、achievements表）
+- [x] 创建数据库配置文件（drizzle.config.ts）
+- [x] 创建数据库操作函数（server/db.ts）
+- [x] 创建后端tRPC基础设置（server/trpc.ts）
+- [x] 创建后端API接口（server/routers.ts - learning、favorites、achievements）
+- [ ] 集成Manus OAuth认证
+- [ ] 修改前端组件使用tRPC API
+- [ ] 添加单元测试
+- [ ] 运行数据库迁移
+- [ ] 保存最终检查点
+
+## Bug Fix - 单词学习页面间距过大
+- [x] 减小单词卡片的上下间距
+- [x] 减小按钮组的间距
+- [x] 减小进度条和导航按钮的间距
+- [x] 验证修复效果
+- [x] 保存最终检查点
