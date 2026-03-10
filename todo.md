@@ -105,4 +105,11 @@
 - [x] 为Places分类添加单词
 - [x] 为Objects分类添加单词
 - [x] 验证修复效果
+- [x] 保存最终检查点
+
+## Feature - 单词卡片翻转后显示emoji表情符号
+- [x] 为单词数据添加emoji字段
+- [x] 修改WordCard组件在中文上方显示emoji
+- [x] 设置emoji为中等大小
+- [x] 测试所有分类的emoji显示效果
 - [ ] 保存最终检查点

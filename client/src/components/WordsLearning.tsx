@@ -20,6 +20,7 @@ interface Word {
   chinese: string;
   pronunciation: string;
   category: string;
+  emoji?: string;
 }
 
 const wordsData: Word[] = generateWords();
@@ -436,6 +437,9 @@ export default function WordsLearning() {
                     }}
                     className="absolute w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded-3xl p-8 shadow-2xl flex flex-col items-center justify-center text-white"
                   >
+                    {currentWord.emoji && (
+                      <div className="text-6xl mb-6">{currentWord.emoji}</div>
+                    )}
                     <div style={{ transform: 'scaleX(-1)' }} className="text-7xl font-bold mb-4">{currentWord.chinese}</div>
                     <div style={{ transform: 'scaleX(-1)' }} className="text-2xl opacity-80">{currentWord.english}</div>
                     <div style={{ transform: 'scaleX(-1)' }} className="text-sm mt-8 opacity-60">点击翻转查看英文</div>
